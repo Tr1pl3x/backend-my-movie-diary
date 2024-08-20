@@ -4,6 +4,12 @@ const Movie = require('../models/Movie');
 const { v4: uuidv4 } = require('uuid');
 
 // Get all movies
+/**
+ * GET /movies
+ * Retrieves all movies from the database.
+ * Returns a JSON array of movie objects.
+ * If there is an error during retrieval, returns a 500 status code with an error message.
+ */
 router.get('/', async (req, res) => {
     try {
         const movies = await Movie.find();
@@ -13,7 +19,14 @@ router.get('/', async (req, res) => {
     }
 });
 
-// Add a new movie
+/**
+ * POST /movies
+ * Adds a new movie to the database.
+ * The movie details (title, poster, releaseDate, watchedDate, rating, notes) are provided in the request body.
+ * A unique movieId is generated for the movie using UUID.
+ * If the movie is successfully added, returns the newly created movie as JSON with a 201 status code.
+ * If there is an error during saving, returns a 400 status code with an error message.
+ */
 router.post('/', async (req, res) => {
     const { title, poster, releaseDate, watchedDate, rating, notes } = req.body;
 
@@ -39,7 +52,13 @@ router.post('/', async (req, res) => {
     }
 });
 
-// Delete a movie by movieId
+/**
+ * DELETE /movies/:movieId
+ * Deletes a movie from the database based on the provided movieId in the URL.
+ * If the movie is found and successfully deleted, returns a confirmation message as JSON.
+ * If the movie is not found, returns a 404 status code with an error message.
+ * If there is an error during deletion, returns a 500 status code with an error message.
+ */
 router.delete('/:movieId', async (req, res) => {
     try {
         const movie = await Movie.findOne({ movieId: req.params.movieId });
@@ -53,6 +72,7 @@ router.delete('/:movieId', async (req, res) => {
     }
 });
 
+// Export the module
 module.exports = router;
 
 
